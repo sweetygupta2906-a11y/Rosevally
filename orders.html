@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoseVally - Order History & Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="orders.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand-header">
+            <div class="brand-icon">🌹</div>
+            <div class="brand-info">
+                <h2>RoseVally</h2>
+                <span>Restaurant & Cafe</span>
+            </div>
+        </div>
+
+        <div class="outlet-tag">
+            <span class="pulse-dot"></span>
+            <span>Ulhasnagar Outlet • Active</span>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-label">Main POS</div>
+            <a href="index.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">🛒</span>
+                    <span>POS / Billing</span>
+                </div>
+            </a>
+
+            <a href="tables.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">🍽️</span>
+                    <span>Tables & Floor</span>
+                </div>
+            </a>
+
+            <a href="kitchen.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">👨‍🍳</span>
+                    <span>Kitchen KDS</span>
+                </div>
+            </a>
+
+            <div class="nav-label">Management</div>
+            <a href="orders.html" class="nav-item active">
+                <div class="nav-left">
+                    <span class="nav-icon">📋</span>
+                    <span>Order History</span>
+                </div>
+            </a>
+
+            <a href="menu.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">🍕</span>
+                    <span>Menu Catalog</span>
+                </div>
+            </a>
+
+            <a href="inventory.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">📦</span>
+                    <span>Inventory & Stock</span>
+                </div>
+            </a>
+
+            <a href="reports.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">📊</span>
+                    <span>Reports & Sales</span>
+                </div>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="system-status">
+                <span>Orders Manager</span>
+                <span style="color:#10b981;">● Online</span>
+            </div>
+        </div>
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <div class="main-wrapper">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+            <div class="page-title">
+                <h1>📋 Order Management & History</h1>
+                <p>Track all live dine-in, takeaway and delivery sales</p>
+            </div>
+
+            <div class="topbar-actions">
+                <button class="quick-action-btn" onclick="exportOrdersToCSV()">
+                    📥 Export CSV
+                </button>
+            </div>
+        </header>
+
+        <main style="padding: 24px 28px;">
+
+            <!-- Summary KPI Badges -->
+            <section class="orders-kpi-grid">
+                <div class="kpi-card">
+                    <span class="kpi-icon" style="background:#e0e7ff; color:#4338ca;">🧾</span>
+                    <div>
+                        <h3 id="kpiTotalOrders">0</h3>
+                        <p>Total Orders Placed</p>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <span class="kpi-icon" style="background:var(--success-light); color:#047857;">💰</span>
+                    <div>
+                        <h3 id="kpiTotalRevenue">₹0.00</h3>
+                        <p>Total Sales Value</p>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <span class="kpi-icon" style="background:var(--warning-light); color:#b45309;">⏳</span>
+                    <div>
+                        <h3 id="kpiActiveOrders">0</h3>
+                        <p>Active Kitchen Tickets</p>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <span class="kpi-icon" style="background:#fae8ff; color:#86198f;">🍽️</span>
+                    <div>
+                        <h3 id="kpiDineInCount">0</h3>
+                        <p>Dine-In Meals</p>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Filter & Search Controls -->
+            <section class="orders-filter-container">
+                <div class="orders-search-wrapper">
+                    <span>🔍</span>
+                    <input type="text" id="orderSearchInput" placeholder="Search by Order ID, Customer Name, Table...">
+                </div>
+
+                <div class="orders-dropdown-filters">
+                    <select id="filterOrderStatus">
+                        <option value="all">All Order Status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Preparing">Preparing</option>
+                        <option value="Ready">Ready</option>
+                        <option value="Served">Served / Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+
+                    <select id="filterOrderType">
+                        <option value="all">All Order Types</option>
+                        <option value="dinein">Dine-In</option>
+                        <option value="takeaway">Takeaway</option>
+                        <option value="delivery">Delivery</option>
+                    </select>
+
+                    <select id="filterPaymentMethod">
+                        <option value="all">All Payment Modes</option>
+                        <option value="Cash">Cash</option>
+                        <option value="UPI">UPI</option>
+                        <option value="Card">Card</option>
+                    </select>
+                </div>
+            </section>
+
+
+            <!-- Orders Master Table -->
+            <section class="orders-table-card">
+                <table class="rose-data-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Time</th>
+                            <th>Type / Table</th>
+                            <th>Customer</th>
+                            <th>Items</th>
+                            <th>Grand Total</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                            <th style="text-align:center;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <!-- Rendered dynamically via orders.js -->
+                    </tbody>
+                </table>
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<!-- ================= ORDER DETAILS & RECEIPT MODAL ================= -->
+<div class="rose-modal-overlay" id="orderDetailModal">
+    <div class="rose-modal-card" style="max-width:440px;">
+        <div class="modal-head">
+            <h3 id="modalOrderTitle">Order Details</h3>
+            <button class="modal-close-btn" onclick="closeOrderModal()">✕</button>
+        </div>
+
+        <div id="orderDetailContent">
+            <!-- Rendered dynamically -->
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="printOrderInvoice()" style="flex:1; padding:12px; background:var(--primary); color:white; border:none; border-radius:var(--radius-md); font-weight:700; cursor:pointer;">
+                🖨️ Print Invoice
+            </button>
+            <button onclick="closeOrderModal()" style="flex:1; padding:12px; background:#e2e8f0; color:var(--text-primary); border:none; border-radius:var(--radius-md); font-weight:700; cursor:pointer;">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Scripts -->
+<script src="store.js"></script>
+<script src="orders.js"></script>
+
+</body>
+</html>

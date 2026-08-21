@@ -1,0 +1,151 @@
+/* ==========================================================================
+   ROSEVALLY RESTAURANT & CAFE MANAGEMENT SYSTEM
+   Inventory Management Stylesheet (inventory.css)
+   ========================================================================== */
+
+.inv-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.inv-kpi-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--shadow-sm);
+}
+
+.inv-kpi-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.inv-kpi-card h3 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.inv-kpi-card p {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.inv-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 24px;
+    background: var(--bg-card);
+    padding: 14px 20px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+}
+
+.inv-search-wrapper {
+    position: relative;
+    flex: 1;
+    min-width: 260px;
+}
+
+.inv-search-wrapper span {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+
+.inv-search-wrapper input {
+    width: 100%;
+    padding: 10px 14px 10px 38px;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    background: var(--bg-main);
+}
+
+.inv-search-wrapper input:focus {
+    border-color: var(--primary);
+    outline: none;
+    background: #fff;
+}
+
+.inv-category-filters {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.inv-cat-btn {
+    border: 1px solid var(--border-color);
+    background: var(--bg-main);
+    padding: 7px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.inv-cat-btn.active {
+    background: var(--bg-sidebar);
+    color: white;
+    border-color: var(--bg-sidebar);
+}
+
+.inv-table-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.stock-meter-wrap {
+    width: 110px;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 9999px;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.stock-meter-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.3s ease;
+}
+
+.fill-safe { background: #10b981; }
+.fill-warn { background: #f59e0b; }
+.fill-danger { background: #ef4444; }
+
+.reorder-badge {
+    background: var(--danger-light);
+    color: #b91c1c;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 4px;
+}

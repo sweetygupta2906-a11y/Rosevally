@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoseVally - Kitchen Display System (KDS)</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="kitchen.css">
+</head>
+<body class="kitchen-body">
+
+<div class="kds-app-container">
+
+    <!-- TOP KDS HEADER -->
+    <header class="kds-header">
+        <div class="kds-brand">
+            <div class="kds-logo">👨‍🍳</div>
+            <div>
+                <h2>RoseVally Kitchen Display</h2>
+                <span>Live Chef Order Terminal • Ulhasnagar</span>
+            </div>
+        </div>
+
+        <!-- Metrics Overview -->
+        <div class="kds-metrics-bar">
+            <div class="kds-metric-pill new">
+                <span class="m-dot"></span>
+                <span>Pending:</span>
+                <strong id="kdsPendingCount">0</strong>
+            </div>
+            <div class="kds-metric-pill prep">
+                <span class="m-dot"></span>
+                <span>Cooking:</span>
+                <strong id="kdsPrepCount">0</strong>
+            </div>
+            <div class="kds-metric-pill ready">
+                <span class="m-dot"></span>
+                <span>Ready:</span>
+                <strong id="kdsReadyCount">0</strong>
+            </div>
+        </div>
+
+        <!-- Right Utilities -->
+        <div class="kds-header-actions">
+            <div class="kds-live-clock" id="kdsClock">00:00:00</div>
+            <button class="kds-tool-btn" id="soundToggleBtn" onclick="toggleKitchenSound()" title="Sound Notifications">
+                🔊 Sound ON
+            </button>
+            <button class="kds-tool-btn" onclick="toggleFullscreen()" title="Fullscreen mode">
+                ⛶ Fullscreen
+            </button>
+            <a href="index.html" class="kds-exit-btn">
+                🛒 Open POS
+            </a>
+        </div>
+    </header>
+
+
+    <!-- TOOLBAR & FILTERS -->
+    <section class="kds-toolbar">
+        <div class="kds-filters" id="kdsFilterTabs">
+            <button class="kds-filter-btn active" data-status="active">🔥 All Active Tickets</button>
+            <button class="kds-filter-btn" data-status="Pending">⏳ Pending</button>
+            <button class="kds-filter-btn" data-status="Preparing">👨‍🍳 Cooking</button>
+            <button class="kds-filter-btn" data-status="Ready">✅ Ready for Pickup</button>
+            <button class="kds-filter-btn" data-status="Served">🍽️ Completed / Served</button>
+        </div>
+
+        <div style="font-size:13px; color:#94a3b8; display:flex; align-items:center; gap:8px;">
+            <span class="pulse-dot"></span>
+            <span>Live POS Sync Active</span>
+        </div>
+    </section>
+
+
+    <!-- TICKETS GRID -->
+    <main class="kds-tickets-container" id="kdsTicketsGrid">
+        <!-- Rendered dynamically via kitchen.js -->
+    </main>
+
+</div>
+
+
+<!-- Scripts -->
+<script src="store.js"></script>
+<script src="kitchen.js"></script>
+
+</body>
+</html>

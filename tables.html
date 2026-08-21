@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoseVally - Floor Plan & Table Management</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Specific Floor & Table Management Styles */
+        .floor-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-badge-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-badge-card .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .stat-badge-card h2 {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.1;
+        }
+
+        .stat-badge-card p {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .floor-filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            background: var(--bg-card);
+            padding: 14px 20px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .zone-tabs, .status-tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab-btn {
+            border: 1px solid var(--border-color);
+            background: var(--bg-main);
+            padding: 7px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-tab-btn.active {
+            background: var(--bg-sidebar);
+            color: white;
+            border-color: var(--bg-sidebar);
+        }
+
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 18px;
+            padding-bottom: 30px;
+        }
+
+        .table-card {
+            background: var(--bg-card);
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+
+        .table-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .table-card.available {
+            border-top: 4px solid #10b981;
+        }
+
+        .table-card.occupied {
+            border-top: 4px solid #ef4444;
+            background: #fffafa;
+        }
+
+        .table-card.reserved {
+            border-top: 4px solid #f59e0b;
+            background: #fffdf5;
+        }
+
+        .table-card.cleaning {
+            border-top: 4px solid #3b82f6;
+            background: #f8fbff;
+        }
+
+        .table-head-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .table-title-group h3 {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .table-zone-sub {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .table-status-pill {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pill-available { background: var(--success-light); color: #047857; }
+        .pill-occupied { background: var(--danger-light); color: #b91c1c; }
+        .pill-reserved { background: var(--warning-light); color: #b45309; }
+        .pill-cleaning { background: var(--info-light); color: #1d4ed8; }
+
+        .table-center-info {
+            padding: 12px 0;
+            margin: 8px 0;
+            border-top: 1px dashed var(--border-color);
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .occupied-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 13px;
+        }
+
+        .occupied-amount {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .table-actions-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .table-btn {
+            flex: 1;
+            padding: 9px 12px;
+            border-radius: var(--radius-md);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .table-btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .table-btn-secondary {
+            background: #f1f5f9;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand-header">
+            <div class="brand-icon">🌹</div>
+            <div class="brand-info">
+                <h2>RoseVally</h2>
+                <span>Restaurant & Cafe</span>
+            </div>
+        </div>
+
+        <div class="outlet-tag">
+            <span class="pulse-dot"></span>
+            <span>Ulhasnagar Outlet • Active</span>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-label">Main POS</div>
+            <a href="index.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">🛒</span>
+                    <span>POS / Billing</span>
+                </div>
+            </a>
+
+            <a href="tables.html" class="nav-item active">
+                <div class="nav-left">
+                    <span class="nav-icon">🍽️</span>
+                    <span>Tables & Floor</span>
+                </div>
+                <span class="nav-badge" id="sidebarOccupiedBadge">0/25</span>
+            </a>
+
+            <a href="kitchen.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">👨‍🍳</span>
+                    <span>Kitchen KDS</span>
+                </div>
+            </a>
+
+            <div class="nav-label">Management</div>
+            <a href="orders.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">📋</span>
+                    <span>Order History</span>
+                </div>
+            </a>
+
+            <a href="menu.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">🍕</span>
+                    <span>Menu Catalog</span>
+                </div>
+            </a>
+
+            <a href="inventory.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">📦</span>
+                    <span>Inventory & Stock</span>
+                </div>
+            </a>
+
+            <a href="reports.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">📊</span>
+                    <span>Reports & Sales</span>
+                </div>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="system-status">
+                <span>Tables Manager</span>
+                <span style="color:#10b981;">● Online</span>
+            </div>
+        </div>
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <div class="main-wrapper">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+            <div class="page-title">
+                <h1>🍽️ Floor Plan & Table Management</h1>
+                <p>Monitor dining tables, occupancy, running totals & reserve seats</p>
+            </div>
+
+            <div class="topbar-actions">
+                <button class="quick-action-btn" onclick="openReservationModal()">
+                    📅 Book Table
+                </button>
+            </div>
+        </header>
+
+        <!-- CONTENT PANE -->
+        <main style="padding: 24px 28px;">
+
+            <!-- Metric Cards -->
+            <section class="floor-stats-grid">
+                <div class="stat-badge-card">
+                    <div class="stat-icon" style="background:#f1f5f9; color:#0f172a;">🍽️</div>
+                    <div>
+                        <h2 id="metricTotalTables">25</h2>
+                        <p>Total Capacity</p>
+                    </div>
+                </div>
+
+                <div class="stat-badge-card">
+                    <div class="stat-icon" style="background:var(--success-light); color:#047857;">🟢</div>
+                    <div>
+                        <h2 id="metricAvailableTables">25</h2>
+                        <p>Available Tables</p>
+                    </div>
+                </div>
+
+                <div class="stat-badge-card">
+                    <div class="stat-icon" style="background:var(--danger-light); color:#b91c1c;">🔴</div>
+                    <div>
+                        <h2 id="metricOccupiedTables">0</h2>
+                        <p>Occupied (Dining)</p>
+                    </div>
+                </div>
+
+                <div class="stat-badge-card">
+                    <div class="stat-icon" style="background:var(--warning-light); color:#b45309;">🟡</div>
+                    <div>
+                        <h2 id="metricReservedTables">0</h2>
+                        <p>Reserved</p>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Filter Controls -->
+            <section class="floor-filter-bar">
+                <div class="zone-tabs" id="zoneFilterTabs">
+                    <button class="filter-tab-btn active" data-zone="all">All Zones</button>
+                    <button class="filter-tab-btn" data-zone="Indoor Main Hall">🏛️ Indoor Hall</button>
+                    <button class="filter-tab-btn" data-zone="AC Family Lounge">❄️ AC Lounge</button>
+                    <button class="filter-tab-btn" data-zone="Open Garden Terrace">🌿 Garden Terrace</button>
+                    <button class="filter-tab-btn" data-zone="VIP Executive Booth">⭐ VIP Booths</button>
+                </div>
+
+                <div class="status-tabs" id="statusFilterTabs">
+                    <button class="filter-tab-btn active" data-status="all">All Status</button>
+                    <button class="filter-tab-btn" data-status="available">🟢 Available</button>
+                    <button class="filter-tab-btn" data-status="occupied">🔴 Occupied</button>
+                    <button class="filter-tab-btn" data-status="reserved">🟡 Reserved</button>
+                </div>
+            </section>
+
+
+            <!-- Tables Grid -->
+            <section class="tables-grid" id="tablesContainer">
+                <!-- Rendered dynamically via tables.js -->
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<!-- ================= TABLE RESERVATION MODAL ================= -->
+<div class="rose-modal-overlay" id="reserveModal">
+    <div class="rose-modal-card">
+        <div class="modal-head">
+            <h3>📅 Reserve Table</h3>
+            <button class="modal-close-btn" onclick="closeReservationModal()">✕</button>
+        </div>
+        
+        <form onsubmit="handleTableReservation(event)">
+            <div style="margin-bottom:14px;">
+                <label style="font-size:13px; font-weight:700; display:block; margin-bottom:6px;">Select Table</label>
+                <select id="reserveTableSelect" required style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:var(--radius-md);">
+                    <!-- Dynamic -->
+                </select>
+            </div>
+
+            <div style="margin-bottom:14px;">
+                <label style="font-size:13px; font-weight:700; display:block; margin-bottom:6px;">Guest Name</label>
+                <input type="text" id="reserveGuestName" placeholder="e.g. Mr. Rajesh Khanna" required style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:var(--radius-md);">
+            </div>
+
+            <div style="margin-bottom:14px;">
+                <label style="font-size:13px; font-weight:700; display:block; margin-bottom:6px;">Contact Phone</label>
+                <input type="tel" id="reserveGuestPhone" placeholder="e.g. 9820012345" required style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:var(--radius-md);">
+            </div>
+
+            <div style="margin-bottom:20px;">
+                <label style="font-size:13px; font-weight:700; display:block; margin-bottom:6px;">Party Size (Guests)</label>
+                <input type="number" id="reserveGuestCount" value="2" min="1" max="12" style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:var(--radius-md);">
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:8px;">
+                <button type="button" onclick="closeReservationModal()" style="padding:10px 18px; border:1px solid var(--border-color); background:transparent; border-radius:var(--radius-sm); cursor:pointer;">Cancel</button>
+                <button type="submit" style="padding:10px 20px; border:none; background:var(--primary); color:white; font-weight:700; border-radius:var(--radius-sm); cursor:pointer;">Confirm Booking</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Scripts -->
+<script src="store.js"></script>
+<script src="tables.js"></script>
+
+</body>
+</html>

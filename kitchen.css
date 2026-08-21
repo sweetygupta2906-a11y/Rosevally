@@ -1,0 +1,356 @@
+/* ==========================================================================
+   ROSEVALLY RESTAURANT & CAFE MANAGEMENT SYSTEM
+   Kitchen Display System (KDS) Stylesheet (kitchen.css)
+   ========================================================================== */
+
+.kitchen-body {
+    background-color: #0b0f19;
+    color: #f1f5f9;
+    min-height: 100vh;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.kds-app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* KDS Header */
+.kds-header {
+    background: #111827;
+    border-bottom: 1.5px solid #1f2937;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.kds-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.kds-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.kds-brand h2 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.2;
+}
+
+.kds-brand span {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.kds-metrics-bar {
+    display: flex;
+    gap: 10px;
+}
+
+.kds-metric-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 700;
+    background: #1f2937;
+}
+
+.kds-metric-pill.new { color: #f87171; }
+.kds-metric-pill.prep { color: #fbbf24; }
+.kds-metric-pill.ready { color: #34d399; }
+
+.kds-metric-pill .m-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.kds-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.kds-live-clock {
+    background: #1f2937;
+    border: 1px solid #374151;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 15px;
+    font-weight: 700;
+    color: #38bdf8;
+}
+
+.kds-tool-btn {
+    background: #1f2937;
+    border: 1px solid #374151;
+    color: #e5e7eb;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.kds-tool-btn:hover {
+    background: #374151;
+}
+
+.kds-exit-btn {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.35);
+}
+
+/* Toolbar & Filters */
+.kds-toolbar {
+    padding: 14px 24px;
+    background: #111827;
+    border-bottom: 1px solid #1f2937;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.kds-filters {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.kds-filter-btn {
+    background: #1f2937;
+    border: 1px solid #374151;
+    color: #9ca3af;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.kds-filter-btn.active {
+    background: #f59e0b;
+    color: #000000;
+    border-color: #f59e0b;
+    font-weight: 800;
+}
+
+/* Tickets Grid */
+.kds-tickets-container {
+    padding: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    align-items: start;
+    flex: 1;
+}
+
+.kds-ticket-card {
+    background: #161f30;
+    border-radius: 14px;
+    border: 2px solid #283548;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    animation: roseSlideIn 0.3s ease;
+}
+
+.kds-ticket-card.ticket-pending {
+    border-color: #ef4444;
+}
+
+.kds-ticket-card.ticket-preparing {
+    border-color: #f59e0b;
+}
+
+.kds-ticket-card.ticket-ready {
+    border-color: #10b981;
+}
+
+.ticket-header {
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1e293b;
+    border-bottom: 1px solid #334155;
+}
+
+.ticket-header.pending-head { background: #451a1a; color: #fca5a5; }
+.ticket-header.prep-head { background: #453211; color: #fde047; }
+.ticket-header.ready-head { background: #133827; color: #86efac; }
+
+.ticket-order-id {
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.ticket-timer {
+    font-size: 13px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.ticket-sub-meta {
+    padding: 10px 16px;
+    background: #131a29;
+    border-bottom: 1px solid #1f2937;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.ticket-items-list {
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.ticket-item-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px solid #1e293b;
+    cursor: pointer;
+    user-select: none;
+}
+
+.ticket-item-row.done {
+    opacity: 0.45;
+    text-decoration: line-through;
+}
+
+.ticket-item-check {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #4b5563;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.ticket-item-row.done .ticket-item-check {
+    background: #10b981;
+    border-color: #10b981;
+}
+
+.ticket-item-row.done .ticket-item-check::after {
+    content: '✓';
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.ticket-item-details {
+    flex: 1;
+}
+
+.ticket-item-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #f8fafc;
+}
+
+.ticket-item-qty {
+    display: inline-block;
+    background: #374151;
+    color: #f3f4f6;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-right: 6px;
+}
+
+.ticket-note-highlight {
+    background: #78350f;
+    color: #fde68a;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-top: 4px;
+    display: inline-block;
+}
+
+.ticket-footer-actions {
+    padding: 12px 16px;
+    background: #111827;
+    border-top: 1px solid #1f2937;
+}
+
+.kds-action-btn {
+    width: 100%;
+    padding: 11px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-start-cook {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #000;
+}
+
+.btn-mark-ready {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #fff;
+}
+
+.btn-mark-served {
+    background: #374151;
+    color: #d1d5db;
+}

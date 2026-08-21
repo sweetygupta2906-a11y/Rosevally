@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoseVally - Menu Item Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="menu.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand-header">
+            <div class="brand-icon">🌹</div>
+            <div class="brand-info">
+                <h2>RoseVally</h2>
+                <span>Restaurant & Cafe</span>
+            </div>
+        </div>
+
+        <div class="outlet-tag">
+            <span class="pulse-dot"></span>
+            <span>Ulhasnagar Outlet • Active</span>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-label">Main POS</div>
+            <a href="index.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">🛒</span>
+                    <span>POS / Billing</span>
+                </div>
+            </a>
+
+            <a href="tables.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">🍽️</span>
+                    <span>Tables & Floor</span>
+                </div>
+            </a>
+
+            <a href="kitchen.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">👨‍🍳</span>
+                    <span>Kitchen KDS</span>
+                </div>
+            </a>
+
+            <div class="nav-label">Management</div>
+            <a href="orders.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">📋</span>
+                    <span>Order History</span>
+                </div>
+            </a>
+
+            <a href="menu.html" class="nav-item active">
+                <div class="nav-left">
+                    <span class="nav-icon">🍕</span>
+                    <span>Menu Catalog</span>
+                </div>
+            </a>
+
+            <a href="inventory.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">📦</span>
+                    <span>Inventory & Stock</span>
+                </div>
+            </a>
+
+            <a href="reports.html" class="nav-item">
+                <div class="nav-left">
+                    <span class="nav-icon">📊</span>
+                    <span>Reports & Sales</span>
+                </div>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="system-status">
+                <span>Menu Manager</span>
+                <span style="color:#10b981;">● Online</span>
+            </div>
+        </div>
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <div class="main-wrapper">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+            <div class="page-title">
+                <h1>🍕 Menu & Catalog Management</h1>
+                <p>Add new dishes, customize prices, toggle stock availability</p>
+            </div>
+
+            <div class="topbar-actions">
+                <button class="quick-action-btn" onclick="openDishModal()">
+                    ✨ + Add New Dish
+                </button>
+            </div>
+        </header>
+
+        <main style="padding: 24px 28px;">
+
+            <!-- Summary KPI Badges -->
+            <section class="menu-kpi-grid">
+                <div class="menu-kpi-card">
+                    <span class="menu-kpi-icon" style="background:#e0e7ff; color:#4338ca;">🍽️</span>
+                    <div>
+                        <h3 id="metricTotalDishes">0</h3>
+                        <p>Total Menu Items</p>
+                    </div>
+                </div>
+
+                <div class="menu-kpi-card">
+                    <span class="menu-kpi-icon" style="background:var(--success-light); color:#047857;">🟢</span>
+                    <div>
+                        <h3 id="metricInStockDishes">0</h3>
+                        <p>In-Stock (Active)</p>
+                    </div>
+                </div>
+
+                <div class="menu-kpi-card">
+                    <span class="menu-kpi-icon" style="background:var(--danger-light); color:#b91c1c;">🔴</span>
+                    <div>
+                        <h3 id="metricOutOfStockDishes">0</h3>
+                        <p>Out of Stock</p>
+                    </div>
+                </div>
+
+                <div class="menu-kpi-card">
+                    <span class="menu-kpi-icon" style="background:#fef3c7; color:#b45309;">📂</span>
+                    <div>
+                        <h3 id="metricCategoriesCount">6</h3>
+                        <p>Categories</p>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Filter & Search Toolbar -->
+            <section class="menu-toolbar">
+                <div class="menu-search-wrapper">
+                    <span>🔍</span>
+                    <input type="text" id="menuSearchInput" placeholder="Search dishes by name or description...">
+                </div>
+
+                <div class="menu-category-filter" id="menuCategoryFilters">
+                    <button class="menu-cat-btn active" data-cat="all">All</button>
+                    <button class="menu-cat-btn" data-cat="pizza">🍕 Pizza</button>
+                    <button class="menu-cat-btn" data-cat="burger">🍔 Burger</button>
+                    <button class="menu-cat-btn" data-cat="sandwich">🥪 Sandwich</button>
+                    <button class="menu-cat-btn" data-cat="main">🍗 Main</button>
+                    <button class="menu-cat-btn" data-cat="beverage">🥤 Beverages</button>
+                    <button class="menu-cat-btn" data-cat="dessert">🍰 Desserts</button>
+                </div>
+            </section>
+
+
+            <!-- Menu Catalog Grid -->
+            <section class="menu-catalog-grid" id="menuCatalogGrid">
+                <!-- Rendered dynamically via menu.js -->
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<!-- ================= ADD / EDIT DISH MODAL ================= -->
+<div class="rose-modal-overlay" id="dishModal">
+    <div class="rose-modal-card">
+        <div class="modal-head">
+            <h3 id="dishModalTitle">✨ Add New Dish</h3>
+            <button class="modal-close-btn" onclick="closeDishModal()">✕</button>
+        </div>
+
+        <form onsubmit="handleDishFormSubmit(event)">
+            <input type="hidden" id="dishEditId">
+
+            <div style="display:grid; grid-template-columns:1fr 80px; gap:12px; margin-bottom:14px;">
+                <div>
+                    <label style="font-size:13px; font-weight:700; display:block; margin-bottom:6px;">Dish Name</label>
+                    <input type="text" id="dishNameInput" placeholder="e.g. Cheesy Garlic Bread" required style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:var(--radius-md);">
+                </div>
+                <div>
+                    <label style="font-size:13px; font-weight:700; display:block; margin-bottom:6px;">Emoji</label>
+                    <input type="text" id="dishEmojiInput" value="🍕" required style="width:100%; padding:10px; text-align:center; font-size:18px; border:1.5px solid var(--border-color); border-radius:var(--radius-md);">
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+                <div>
+                    <label style="font-size:13px; font-weight:700; display:block; margin-bottom:6px;">Category</label>
+                    <select id="dishCategoryInput" required style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:var(--radius-md);">
+                        <option value="pizza">Pizza</option>
+                        <option value="burger">Burger</option>
+                        <option value="sandwich">Sandwich</option>
+                        <option value="main">Main Course</option>
+                        <option value="beverage">Beverage</option>
+                        <option value="dessert">Dessert</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label style="font-size:13px; font-weight:700; display:block; margin-bottom:6px;">Diet Type</label>
+                    <select id="dishDietInput" required style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:var(--radius-md);">
+                        <option value="veg">🟢 Vegetarian</option>
+                        <option value="nonveg">🔴 Non-Vegetarian</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="margin-bottom:14px;">
+                <label style="font-size:13px; font-weight:700; display:block; margin-bottom:6px;">Price (₹)</label>
+                <input type="number" id="dishPriceInput" min="1" step="1" placeholder="e.g. 199" required style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:var(--radius-md);">
+            </div>
+
+            <div style="margin-bottom:16px;">
+                <label style="font-size:13px; font-weight:700; display:block; margin-bottom:6px;">Description</label>
+                <textarea id="dishDescInput" rows="2" placeholder="Brief description of ingredients & flavors..." style="width:100%; padding:10px; border:1.5px solid var(--border-color); border-radius:var(--radius-md); font-family:inherit;"></textarea>
+            </div>
+
+            <div style="margin-bottom:20px; display:flex; align-items:center; gap:10px;">
+                <input type="checkbox" id="dishAvailableInput" checked style="width:18px; height:18px; cursor:pointer;">
+                <label for="dishAvailableInput" style="font-size:13px; font-weight:600; cursor:pointer;">In Stock / Available for Orders</label>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:8px;">
+                <button type="button" onclick="closeDishModal()" style="padding:10px 18px; border:1px solid var(--border-color); background:transparent; border-radius:var(--radius-sm); cursor:pointer;">Cancel</button>
+                <button type="submit" style="padding:10px 20px; border:none; background:var(--primary); color:white; font-weight:700; border-radius:var(--radius-sm); cursor:pointer;">Save Dish</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Scripts -->
+<script src="store.js"></script>
+<script src="menu.js"></script>
+
+</body>
+</html>

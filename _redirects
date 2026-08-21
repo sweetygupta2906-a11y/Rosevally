@@ -1,0 +1,8 @@
+# Redirects for Netlify
+/pos        /index.html     200
+/tables     /tables.html    200
+/kitchen    /kitchen.html   200
+/orders     /orders.html    200
+/menu       /menu.html      200
+/inventory  /inventory.html 200
+/reports    /reports.html   200
